@@ -15,7 +15,6 @@ while(<file>)
     if (index($_,"move")== -1&& length($_) > 0)
     {
         if(index($_,"[")==-1){next;}
-
         my $rowLength = length($_);
         my $row = $_;
         my $counter = 0;
@@ -23,10 +22,8 @@ while(<file>)
         while ($counter < $rowLength)
         {
             $itemLocation = index($row,"[",($itemLocation));
-    
             if($itemLocation==0)
             {
-                
                 push(@{$stacks[0]},substr($row,1,1));
             }
             if($itemLocation>0)
