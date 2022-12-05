@@ -60,12 +60,13 @@ while(<file>)
         my $count = 0;
         while ($count < $numMove)
         {
-            
             my $temp = pop(@{$stacks[$source]});
             push(@crate,$temp);
             $count++;
         }
         $count = 0;
+        #For part two move the crates into an intermediate array to maintain the order.
+        #Remove the second loop and put the push back into the first loop to do part 1.
         while ($count < $numMove)
         {
             my $temp = pop(@crate);
@@ -74,8 +75,6 @@ while(<file>)
         }
     }
 }
-#print Dumper @stacks;
-
 my $localCount=0;
 while ($localCount < @stacks)
 {
