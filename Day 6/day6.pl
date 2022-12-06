@@ -19,7 +19,6 @@ while(<file>)
         {
             if(grep(/$letter/,@chars))
             {
-                shift(@chars);
                 while (grep(/$letter/,@chars))
                 {
                     shift(@chars);
