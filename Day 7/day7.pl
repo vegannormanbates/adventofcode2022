@@ -35,11 +35,13 @@ while(<file>)
         $sizes{$_} += $sizes foreach @path;
     }
 }
-
 my @dirs = grep ({$_ <= 100000} values %sizes);
 print "Part 1: ".sum(@dirs)."\n";
+
+#Part 2
 @dirs = values(%sizes);
 @dirs = sort {$a <=> $b} @dirs;
+
 foreach my $dir (@dirs)
 {
     if((40000000 - $sizes {"/"} + $dir) >= 0)
