@@ -32,7 +32,10 @@ while(<file>)
     }
     if(my ($sizes)= /^([0-9]+)/)
     {
-        $sizes{$_} += $sizes foreach @path;
+        foreach (@path)
+        {
+        $sizes{$_} += $sizes;
+        }
     }
 }
 my @dirs = grep ({$_ <= 100000} values %sizes);
