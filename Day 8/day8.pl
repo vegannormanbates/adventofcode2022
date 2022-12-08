@@ -24,11 +24,8 @@ my $maxY = $y;
 my $numVis=0;
 my $xCount=0;
 my $yCount=0;
-my $currentTallest =0;
+my $currentTallest =-1;
 my %visTrees;
-
-print "X Max: $maxX\n";
-print "Y Max: $maxY\n";
 
 while ($xCount <= $maxX-1)
 {
@@ -38,8 +35,6 @@ while ($xCount <= $maxX-1)
     {
         $numVis++;
         $currentTallest = $tree;
-        print "X: $xCount Y: $yCount height $tree is visible\n";
-        #$trees{"x$xCount"."y$yCount"} = 0; #Set to 0 so it doesn't get counted again.
         $visTrees{"x$xCount"."y$yCount"} =  $trees{"x$xCount"."y$yCount"};
     }
     elsif ($tree > $currentTallest && exists($visTrees{"x$xCount"."y$yCount"}))
@@ -49,7 +44,7 @@ while ($xCount <= $maxX-1)
     $xCount++;
     if($xCount>$maxX-1)
     {
-        $currentTallest = 0;
+        $currentTallest = -1;
         $yCount++;
         $xCount=0;
 
@@ -67,14 +62,11 @@ $currentTallest=-1;
 while ($xCount >= 0)
 {
     my $tree = $trees{"x$xCount"."y$yCount"};
-    print "x:$xCount"."y:$yCount"."Tree: $tree\n";
 
     if ($tree > $currentTallest && !exists($visTrees{"x$xCount"."y$yCount"}))
     {
         $numVis++;
         $currentTallest = $tree;
-        print "X: $xCount Y: $yCount height $tree is visible\n";
-        #$trees{"x$xCount"."y$yCount"} = 0; #Set to 0 so it doesn't get counted again.
         $visTrees{"x$xCount"."y$yCount"} =  $trees{"x$xCount"."y$yCount"};
     }
     elsif ($tree > $currentTallest && exists($visTrees{"x$xCount"."y$yCount"}))
@@ -107,8 +99,6 @@ while ($yCount <= $maxY-1)
     {
         $numVis++;
         $currentTallest = $tree;
-        print "X: $xCount Y: $yCount height $tree is visible\n";
-        #$trees{"x$xCount"."y$yCount"} = 0; #Set to 0 so it doesn't get counted again.
         $visTrees{"x$xCount"."y$yCount"} =  $trees{"x$xCount"."y$yCount"};
     }
     elsif ($tree > $currentTallest && exists($visTrees{"x$xCount"."y$yCount"}))
@@ -141,8 +131,6 @@ while ($yCount >= 0)
     {
         $numVis++;
         $currentTallest = $tree;
-        print "X: $xCount Y: $yCount height $tree is visible\n";
-        #$trees{"x$xCount"."y$yCount"} = 0; #Set to 0 so it doesn't get counted again.
         $visTrees{"x$xCount"."y$yCount"} =  $trees{"x$xCount"."y$yCount"};
     }
     elsif ($tree > $currentTallest && exists($visTrees{"x$xCount"."y$yCount"}))
@@ -163,4 +151,6 @@ while ($yCount >= 0)
         }
     }
 }
-print $numVis."\n";
+print "Part 1 Answer: ".$numVis."\n";
+
+my $maxScore=0;
