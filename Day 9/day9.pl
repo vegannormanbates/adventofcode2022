@@ -100,7 +100,6 @@ sub tailMove
     my @headCoords = ($_[0], $_[1]);
     my @tailCoords = ($_[2], $_[3]);
     my $move;
-    my $move2; #this is needed for diagonal moves I think.
 
     if($headCoords[0] == $tailCoords[0])
     {
