@@ -119,7 +119,6 @@ sub tailMove
     else
     {
         #diagonal
-        # I think I just need to do the logic up above for move and move2
         $move = $headCoords[1] - $tailCoords[1];
         $move = $move/abs($move);
         $tailCoords[1]+= $move;
