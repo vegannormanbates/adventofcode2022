@@ -52,22 +52,22 @@ while($curRow < (@trees-1))
         for my $neighbor (reverse @row_left)
         {
             $leftScore++;
-            last if($tree<= $neighbor);
+            last if($tree <= $neighbor);
         }
         for my $neighbor (@row_right)
         {
             $rightScore++;
-            last if($tree<= $neighbor);
+            last if($tree <= $neighbor);
         }
         for my $neighbor (reverse @column_up)
         {
             $upScore++;
-            last if($tree<= $neighbor);
+            last if($tree <= $neighbor);
         }
         for my $neighbor (@column_down)
         {
             $downScore++;
-            last if($tree<= $neighbor);
+            last if($tree <= $neighbor);
         }
 
         $curColumn++;
