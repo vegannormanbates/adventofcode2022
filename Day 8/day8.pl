@@ -154,3 +154,120 @@ while ($yCount >= 0)
 print "Part 1 Answer: ".$numVis."\n";
 
 my $maxScore=0;
+$yCount = 0;
+$xCount = 0;
+my %scores;
+
+
+while ($yCount < $maxY)
+{
+    while ($xCount < $maxX-1)
+    {
+        my $height = $trees{"x$xCount"."y$yCount"};
+        my $treesRight = ($maxX) - $xCount;
+        my $treesLeft = $xCount;
+        my $treesUp = $yCount;
+        my $treesDown = ($maxY-1) - $yCount;
+        my $curX = $xCount;
+        my $curY = $yCount; 
+        my $rightScore = 0;
+        my $leftScore = 0;
+        my $upScore = 0;
+        my $downScore = 0;
+
+        while ($curX <= $treesRight)
+        {
+            my $right=$curX+1;
+            print $right."\n";
+            if($xCount == $maxX)
+            {
+                $rightScore = 0;
+                last;
+            }
+            elsif($height > $trees{"x$right"."y$yCount"})
+            {
+                $rightScore++;
+                $curX++;
+            }
+            else
+            {
+                last;
+            }
+        }
+
+        $curX= $xCount;
+        while ($curX >= 0)
+        {
+            my $left=$curX-1;
+            if($xCount == 0)
+            {
+                $leftScore = 0;
+                last;
+            }
+            elsif($left == -1)
+            {
+                #$leftScore++;
+                last;
+            }
+            elsif($height > $trees{"x$left"."y$yCount"})
+            {
+                $leftScore++;
+                $curX--;
+            }
+            elsif ($xCount > 0 && $height <=$trees{"x$left"."y$yCount"})
+            {
+                $leftScore = 1;
+                $curX--;
+            }
+            else
+            {
+                last;
+            }
+        }
+
+        while ($curY >= $treesUp)
+        {
+            if($height > $trees{"x$xCount"."y$curY"})
+            {
+                $upScore++;
+                $curY--;
+            }
+            else
+            {
+                last;
+            }
+        }
+        $curY = $yCount+1;
+
+        while ($curY <= $treesDown)
+        {
+            if($height > $trees{"x$xCount"."y$curY"})
+            {
+                $downScore++;
+                $curY++;
+            }
+            else
+            {
+                last;
+            }
+        }
+        print "Current Location X:$xCount Y:$yCount\n";
+        print "Current Tree Height: ".$trees{"x$xCount"."y$yCount"}."\n";
+        print "Right Score: $rightScore\n";
+        print "Left Score: $leftScore\n";
+        print "Up Score: $upScore\n";
+        print "Down Score: $downScore\n";
+        print "Total Score:".$rightScore * $leftScore * $upScore * $downScore."\n";
+
+        $scores{"x$xCount"."y$yCount"} = $rightScore * $leftScore * $upScore * $downScore;
+        if ($scores{"x$xCount"."y$yCount"} > $maxScore)
+        {
+            $maxScore = $scores{"x$xCount"."y$yCount"};
+        }
+        $xCount++;
+    }
+    $yCount++;
+    $xCount= 0;
+}
+
+print "Max Score: ".$maxScore."\n";
