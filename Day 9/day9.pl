@@ -10,14 +10,14 @@ my @hLocation = (0,0);
 my @tLocation = (0,0);
 my @tHistory;
 $tHistory[0] = "0,0";
-my %knots;
+my @knots;
 my $numTails=9;
 
 #tLocation is changed to $knots{1}
 my $count=0;
 while ($count < $numTails)
 {
-    $knots{$count}=[0,0];
+    $knots[$count]= [0,0];
     $count++;
 }
 
@@ -26,9 +26,11 @@ while(<file>)
     chomp $_;
     my @hMove = split(' ',$_);
     my $count = 0;
+ 
 
     while ($count < $hMove[1])
     {
+        my $tailCount=0;
         if($hMove[0] eq 'R')
         {
             $hLocation[0] = $hLocation[0]+1;
@@ -45,20 +47,39 @@ while(<file>)
         {
             $hLocation[1] = $hLocation[1]-1;
         }
-        if(distance($hLocation[0],$hLocation[1],$tLocation[0],$tLocation[1]) > 1)
+        if(distance($hLocation[0],$hLocation[1],@{$knots[0]}[0],@{$knots[0]}[1]) > 1)
         {
-            my @tempCoords = tailMove($hLocation[0],$hLocation[1],$tLocation[0],$tLocation[1]);
-            push(@tHistory,"$tempCoords[0],$tempCoords[1]");
-            @tLocation = @tempCoords;
+            my @tempCoords = tailMove($hLocation[0],$hLocation[1],@{$knots[0]}[0],@{$knots[0]}[1]);
+            @{$knots[0]}= @tempCoords;
         }
         $count++;
+
+        while($tailCount < ($numTails -1))
+        {
+            my @newHead = (@{$knots[$tailCount]}[0],@{$knots[$tailCount]}[1]);
+            #print "DEREFEREENCING IS CONFUSING\n NEW HEAD: $newHead[0],$newHead[1]\n";
+            $tailCount++;
+            #print "TAIL COUNT: $tailCount\n";
+            my @newTail = (@{$knots[$tailCount]}[0],@{$knots[$tailCount]}[1]);
+            #print "NEW TAIL: $newTail[0],$newTail[1]\n";
+            if(distance($newHead[0],$newHead[1],$newTail[0],$newTail[1]) > 1 && ($tailCount < $numTails))
+            {
+                my @tempCoords = tailMove($newHead[0],$newHead[1],$newTail[0],$newTail[1]);
+                @{$knots[$tailCount]}= @tempCoords;
+            }
+            if($tailCount==8)
+            {
+                push(@tHistory,("@{$knots[$tailCount]}[0],@{$knots[$tailCount]}[1]"));
+            }
+
+        }
     }
 
 }
 
 print "Unique Locations:".scalar uniq(@tHistory)."\n";
-
 #print Dumper @tHistory;
+
 
 sub distance
 {
