@@ -67,10 +67,8 @@ while(<file>)
             {
                 push(@tHistory,("@{$knots[$tailCount]}[0],@{$knots[$tailCount]}[1]"));
             }
-
         }
     }
-
 }
 
 print "Unique Locations:".scalar uniq(@tHistory)."\n";
