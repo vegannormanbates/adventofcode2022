@@ -152,7 +152,7 @@ while ($yCount >= 0)
     }
 }
 print "Part 1 Answer: ".$numVis."\n";
-
+=begin comment Blocking out this terrible first attempt at part 2. Going to make a new file just work on it.
 my $maxScore=0;
 $yCount = 0;
 $xCount = 0;
@@ -271,3 +271,4 @@ while ($yCount < $maxY)
 }
 
 print "Max Score: ".$maxScore."\n";
+=end comment
