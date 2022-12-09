@@ -72,7 +72,6 @@ while($curRow < (@trees-1))
 
         $curColumn++;
         $scenicScore = $leftScore * $rightScore * $downScore * $upScore;
-        print $scenicScore."\n";
         push (@scenicScores, $scenicScore);
     }
     $curRow++;
