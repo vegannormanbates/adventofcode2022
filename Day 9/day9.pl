@@ -13,7 +13,6 @@ $tHistory[0] = "0,0";
 my @knots;
 my $numTails=9;
 
-#tLocation is changed to $knots{1}
 my $count=0;
 while ($count < $numTails)
 {
@@ -57,11 +56,8 @@ while(<file>)
         while($tailCount < ($numTails -1))
         {
             my @newHead = (@{$knots[$tailCount]}[0],@{$knots[$tailCount]}[1]);
-            #print "DEREFEREENCING IS CONFUSING\n NEW HEAD: $newHead[0],$newHead[1]\n";
             $tailCount++;
-            #print "TAIL COUNT: $tailCount\n";
             my @newTail = (@{$knots[$tailCount]}[0],@{$knots[$tailCount]}[1]);
-            #print "NEW TAIL: $newTail[0],$newTail[1]\n";
             if(distance($newHead[0],$newHead[1],$newTail[0],$newTail[1]) > 1 && ($tailCount < $numTails))
             {
                 my @tempCoords = tailMove($newHead[0],$newHead[1],$newTail[0],$newTail[1]);
@@ -78,8 +74,6 @@ while(<file>)
 }
 
 print "Unique Locations:".scalar uniq(@tHistory)."\n";
-#print Dumper @tHistory;
-
 
 sub distance
 {
