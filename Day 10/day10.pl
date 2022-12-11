@@ -16,22 +16,18 @@ my @cycleBuffer;
 while(<file>)
 {
     my @command = split(' ',$_);
-
     if ($command[0] eq "noop")
     {
         $cycleCount++;
         push(@cycleBuffer,$x);
-
         if (calcStrength($cycleCount, $x) >= 0)
         {
-
             $signalStrength = calcStrength($cycleCount, $x);
             push(@interestingSignals, $signalStrength);
         }
     }
     elsif ($command[0] eq "addx")
     {
-        
         $cycleCount++;
         push(@cycleBuffer,$x);
         if (calcStrength($cycleCount, $x) >= 0)
@@ -53,7 +49,6 @@ my $interestingSum = sum(@interestingSignals);
 print "\nPart 1: $interestingSum\n";
 print "Part 2:\n\n";
 my $count = 0;
-
 while ($count < $cycleCount-1)
 {
     my $pixel = $cycleBuffer[$count];
