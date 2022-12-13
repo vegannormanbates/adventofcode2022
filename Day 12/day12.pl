@@ -43,61 +43,61 @@ my $maxY = $y;
 
 my @curPos = ($start[0], $start[1]);
 my @visited;
-@visited[0] = "$curPos[0],$curPos[1]"; #used to track where we've been
+#@visited[0] = "$curPos[0],$curPos[1]"; #used to track where we've been
 my @pathLengths;
 
 print "Start: $start[0],$start[1]\n";
 print "End: $end[0],$end[1]\n";
 my @queues;
-@{$queues[0]}[0]= [$curPos[0], $curPos[1]]; #tracking where we need to go
-print Dumper @queues;
+@{$queues[0]}[0]= "$curPos[0],$curPos[1]"; #tracking where we need to go
 
 #AdjPlaces($curPos[0],$curPos[1],$maxX, $maxY);
 while (@queues > 0)
 {
-    my @path = pop (@queues);
+    my @path = shift (@queues);
+    my ($x,$y) = split(',',@{$path[-1]}[-1]);
     print "\n======================STEP:".@visited."\n";
-    print "Path: ".@{$path[-1]}[0]." ".@{$path[-1]}[1]."\n";
-    print Dumper @path;
+    #print Dumper @path;
+    print Dumper @queues;
 
-    #print "Visited Stack: ".$visited[-1]."\n";
-    for (AdjPlaces(@{@{$path[-1]}[0]}[0],@{@{$path[-1]}[0]}[0],$maxX, $maxY))
+    print "Current Coord: $x,$y\n";
+    if (@{$hill[$y]}[$x] eq "E")
     {
-        print "Value to process in loop: ".@{$_}[0]." ".@{$_}[1],"\n";
+        print "DESTINATION FOUND:\n";
+        last;
+    }
+    for (AdjPlaces($x,$y,$maxX, $maxY))
+    {
+        #print "Value to process in loop: ".@{$_}[0]." ".@{$_}[1],"\n";
 
         my $loc = "@{$_}[0],@{$_}[1]";
-        #print "what any returns: ".any {$_ eq $loc} @visited."\n";
-       if (ValidMove($letters{@{$hill[@{$_}[1]]}[@{$_}[0]]},$letters{@{$hill[@{@{$path[-1]}[0]}[1]]}[@{@{$path[-1]}[0]}[0]]}) &&
+        #print "CURRENT LETTER: ".@{$hill[@{$_}[1]]}[@{$_}[0]]."\n";
+       if (ValidMove($letters{@{$hill[@{$_}[1]]}[@{$_}[0]]},$letters{@{$hill[$y]}[$x]}) &&
             !(any {$_ eq $loc} @visited))
-       {
-           #first {$_ eq "@{$_}[0],@{$_}[1]"} @visited == 0
-           #grep ($loc, @visited) == 0
-           #print "Adj: ".$letters{@{$hill[@{$_}[0]]}[@{$_}[1]]}."\n";
-           #print "Cur: ".$letters{@{$hill[@{$path[-1]}[1]]}[@{$path[-1]}[0]]}."\n";
-           #print "Valid Move\n";
-           my @newQueue;
-           @newQueue = @path;
-           print "Checking New Queue Data Structure:\n";
-           print Dumper @newQueue;
-           
-           push(@newQueue,[@{$_}[0],@{$_}[1]]);
-           if (@{$hill[@{$_}[0]]}[@{$_}[1]] eq "E")
-           {
-               last;
-           }
-           else
-           {
-                push (@visited,"@{$_}[0],@{$_}[1]");
-                push (@queues,@newQueue);
-           }
+        {
+            #my @newQueue = @path;
+            push(@{$path[-1]},"@{$_}[0],@{$_}[1]");
+            print "Path after adding most recent location:\n".Dumper @path;
+            my $current_letter = @{$hill[@{$_}[1]]}[@{$_}[0]];
+            if ($current_letter eq "E")
+            {
+                print "Path found: \n";
+                print @visited."\n";
+                #print @newQueue."\n";
+                last;
+            }
+            else
+            {
+                push (@visited,("@{$_}[0],@{$_}[1]"));
+                push (@{$queues},@path);
 
+            }
        }
     }
 }
 print "Path found: \n";
 print @visited."\n";
-print $maxX."\n";
-print $maxY."\n";
+
 sub ValidMove
 {
     if (abs($_[0] - $_[1]) <= 1)
@@ -119,13 +119,13 @@ sub AdjPlaces
 
     my @adj;
 
-    if(($y-1) >= 0)
-    {
-        push (@adj, [$x, $y-1]);
-    }
     if(($y+1) <= $maxY-1)
     {
         push (@adj,[$x, $y+1]);
+    }
+    if(($y-1) >= 0)
+    {
+        push (@adj, [$x, $y-1]);
     }
     if(0<= ($x - 1))
     {
