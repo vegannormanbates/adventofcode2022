@@ -94,8 +94,6 @@ foreach my $sensor (@sensors)
         last;
     }
 }
-
-
 #determine its tuning frequency, which can be found by multiplying its x coordinate by 4000000 and then adding its y coordinate
 
 $runTime = time() - $startTime;
