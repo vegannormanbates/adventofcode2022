@@ -30,25 +30,24 @@ my @blocked;
 my $ROW = 10; #Defines the row to look in for Part 1. Full data: 2000000 Sample: 10
 
 #Part 1 Finds all the points in the defined row blocked by a sensor
-#foreach my $sensor (@sensors)
-#{
-#    my $inRange = 0;
-#    my $xRange = ${$sensor}{'sensorX'} - ${$sensor}{'distance'};
-#
-#   while (${$sensor}{'sensorX'} - ${$sensor}{'distance'} <= $xRange && $xRange <= ${$sensor}{'sensorX'} + ${$sensor}{'distance'})
-#   {
-#        $inRange = withinRange(${$sensor}{'sensorX'},${$sensor}{'sensorY'},$xRange,$ROW,${$sensor}{'distance'});
-#        if( $inRange > 0 && ${$sensor}{'beaconX'} == $xRange && ${$sensor}{'beaconY'}==$ROW)
-#        {
-#            $inRange--;
-#        }
-#        elsif ($inRange > 0)
-#        {
-#            push(@blocked,$xRange);
-#        }
-#        $xRange++;
-#    }
-#}
+foreach my $sensor (@sensors)
+{
+    my $inRange = 0;
+    my $xRange = ${$sensor}{'sensorX'} - ${$sensor}{'distance'};
+   while (${$sensor}{'sensorX'} - ${$sensor}{'distance'} <= $xRange && $xRange <= ${$sensor}{'sensorX'} + ${$sensor}{'distance'})
+   {
+        $inRange = withinRange(${$sensor}{'sensorX'},${$sensor}{'sensorY'},$xRange,$ROW,${$sensor}{'distance'});
+        if( $inRange > 0 && ${$sensor}{'beaconX'} == $xRange && ${$sensor}{'beaconY'}==$ROW)
+        {
+            $inRange--;
+        }
+        elsif ($inRange > 0)
+        {
+            push(@blocked,$xRange);
+        }
+        $xRange++;
+    }
+}
 my $runTime = time() - $startTime;
 print "Part 1: ".uniq(@blocked)."\n";
 print "Part 1 Runtime: $runTime seconds\n";
@@ -95,8 +94,6 @@ foreach my $sensor (@sensors)
         last;
     }
 }
-
-
 #determine its tuning frequency, which can be found by multiplying its x coordinate by 4000000 and then adding its y coordinate
 
 $runTime = time() - $startTime;
