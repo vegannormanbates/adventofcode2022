@@ -67,7 +67,7 @@ sub start
     my $index = first_index { $_ eq $num } @$code;
     rotate($index, $code);
 }
-# when iterating through the list multiple times duplicates become a problem. trying to combine the original index to make each
+# when iterating through the list multiple times duplicates become a problem. trying to combine the number & original index to make each
 # number unique.
 sub getNum
 {
